@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="main.js"></script>
+	<script src="server.js"></script>
+	<style>
+			input {
+				display: block;
+			}
+		</style>
+	<title>Login</title>
+</head>
+<body>
+	<form name="authenticate">
+		<label for="username">
+			Username
+			<input type="text" name="username">
+		</label>
+		<label for="password">
+			Password
+			<input type="text" name="password">
+		</label>
+		<button>Submit</button>
+	</form>
+
+	<script>
+		var form = document.forms["authenticate"];
+		var submit = document.querySelector("button");
+		// var usernameValue = form["username"];
+		// var passwordValue = form["password"];
+		var username = form["username"];
+		var password = form["password"];
+
+		if(!RegExp("([A-Z])\w+").test(username.value)) {
+			username.value = "";
+		}
+			// if(!RegExp("([A-G])\w+").test(usernameValue)) {
+		// 	usernameValue = "";
+		// }
+
+		if(!RegExp("([a-z])\w+").test(password.value)) {
+			password.value = "";
+		}
+		// if(!RegExp("([a-g])\w+").test(passwordValue)) {
+		// 	passwordValue = "";
+		// }
+		
+		submit.addEventListener("click", function(event) {
+			event.preventDefault();
+			
+			var xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = function () {
+				if(this.readyState == 4 && this.status == 200) {
+					console.log(this.responseText);
+				}
+			}
+			var request = "/login?username=" + username.value + "&password=" + password.value;
+			// var request = "./login.html?username=" + username.value + "&password=" + password.value;
+			// var request = "./authenticate?username=" + username.value + "&password=" + password.value;
+			// xhr.open("GET", request, true, username.value, password.value);
+			xhr.open("GET", request, true);
+			xhr.send();
+		});
+
+	</script>
+</body>
+</html>
